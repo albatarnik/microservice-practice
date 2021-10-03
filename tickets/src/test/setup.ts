@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../app';
 import jwt from 'jsonwebtoken';
+jest.mock('../nats-wrapper')
 
 declare global {
   namespace NodeJS {
@@ -14,6 +15,7 @@ declare global {
 
 let mongo: any;
 beforeAll(async () => {
+
   process.env.JWT_KEY = 'asdfasdf';
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -24,6 +26,7 @@ beforeAll(async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+
 });
 
 beforeEach(async () => {
@@ -32,6 +35,7 @@ beforeEach(async () => {
   for (let collection of collections) {
     await collection.deleteMany({});
   }
+
 });
 
 afterAll(async () => {
