@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import { requireAuth, validateRequest } from "@kamal-guru/common";
+import { NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from "@kamal-guru/common";
 import { natsWrapper } from "../nats-wrapper";
 import { Order } from "../models/order";
 
@@ -13,10 +13,10 @@ router.get(
     const order = await Order.findById(req.params.orderId);
 
     if (!order) {
-      throw new Error("Order not found");
+      throw new NotFoundError()
     }
     if (order.userId !== req.currentUser!.id) {
-      throw new Error("Not authorized");
+      throw new NotAuthorizedError();
     }
     res.status(200).send(order);
   }
