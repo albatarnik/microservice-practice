@@ -5,8 +5,8 @@ import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
-router.get("/api/orders", requireAuth, async (req: Request, res: Response) => {
-  res.status(200).send({});
-});
+// router.get("/api/orders", requireAuth, async (req: Request, res: Response) => {
+//   res.status(200).send({});
+// });
 
 export { router as indexOrderRouter };

@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
 import { OrderStatus } from "@kamal-guru/common";
+import { TicketDoc } from "./ticket";
+
+export { OrderStatus };
 
 interface OrderAttrs {
-  status: OrderStatus;
-  expiredAt: Date;
   userId: string;
+  status: OrderStatus;
+  expiresAt: Date;
   ticket: TicketDoc;
 }
 
 interface OrderDoc extends mongoose.Document {
-  status: OrderStatus;
-  expiredAt: Date;
   userId: string;
+  status: OrderStatus;
+  expiresAt: Date;
   ticket: TicketDoc;
 }
 
@@ -19,7 +22,7 @@ interface OrderModel extends mongoose.Model<OrderDoc> {
   build(attrs: OrderAttrs): OrderDoc;
 }
 
-const OrderSchema = new mongoose.Schema(
+const orderSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
@@ -29,15 +32,15 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: Object.values(OrderStatus),
+      default: OrderStatus.Created,
     },
-    expiredAt: {
-      type: Date,
-      required: true,
+    expiresAt: {
+      type: mongoose.Schema.Types.Date,
     },
     ticket: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Ticket",
-    }
+      ref: 'Ticket',
+    },
   },
   {
     toJSON: {
@@ -49,10 +52,10 @@ const OrderSchema = new mongoose.Schema(
   }
 );
 
-OrderSchema.statics.build = (attrs: OrderAttrs) => {
+orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);
 };
 
-const Order = mongoose.model<OrderDoc, OrderModel>("Order", OrderSchema);
+const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
 
 export { Order };

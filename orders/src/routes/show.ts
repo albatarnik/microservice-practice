@@ -5,8 +5,8 @@ import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
-router.get("/api/orders/{orderId}", requireAuth, async (req: Request, res: Response) => {
-  res.status(201).send({});
-});
+// router.get("/api/orders/{orderId}", requireAuth, async (req: Request, res: Response) => {
+//   res.status(201).send({});
+// });
 
 export { router as showOrderRouter };
